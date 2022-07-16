@@ -31,7 +31,7 @@ public class TweetServiceImpl implements TweetService {
 			this.tweetRepository.save(tweet);
 
 			fetchedUserObj.addTweet(tweet);
-			User savedUser = userRepository.save(fetchedUserObj);
+			userRepository.save(fetchedUserObj);
 
 		} else {
 			System.out.println("User not found with the given email ID");

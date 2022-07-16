@@ -14,11 +14,9 @@ public interface UserService {
 	public boolean validateUser(String emailId, String password);
 
 	public User getUserByEmailID(String emailId);
-	
+
 	public boolean updateUser(User user);
 
-	public User IsUserLoggedIn(User userLoggedInDetails);
-
 	public List<User> getAllUser();
-	
+
 }

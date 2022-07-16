@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tweetapp.model.Tweet;
 import com.tweetapp.model.User;
 import com.tweetapp.repository.UserRepository;
 import com.tweetapp.service.UserService;
@@ -59,26 +58,14 @@ public class UserServiceImpl implements UserService {
 		if (existingUser.isEmpty()) {
 			return false;
 		} else {
-			User savedUser = userRepository.save(user);
+			userRepository.save(user);
 			return true;
 		}
 	}
 
 	@Override
-	public User IsUserLoggedIn(User userLoggedInDetails) {
-		// TODO Auto-generated method stub
-		User userUpdate = userRepository.save(userLoggedInDetails);
-		return null;
-	}
-	
-	//@Override
-	//public List<Tweet> fetchAllTweets() {
-	//	return this.tweetRepository.findAll();
-	//}
-
-	@Override
 	public List<User> getAllUser() {
-		
+
 		return this.userRepository.findAll();
 	}
 
