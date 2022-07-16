@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tweetapp.exception.InvalidInputException;
 import com.tweetapp.model.Tweet;
 import com.tweetapp.model.User;
 import com.tweetapp.service.TweetService;
@@ -41,8 +40,6 @@ public class MainMenuController {
 
 		int choice = -1;
 		Scanner scanner = new Scanner(System.in);
-		
-		
 
 		while (true) {
 
@@ -88,7 +85,7 @@ public class MainMenuController {
 			}
 
 		}
-
+		scanner.close();
 	}
 
 	// Actions after the Login
@@ -136,21 +133,22 @@ public class MainMenuController {
 					break;
 				}
 				case 7: {
-					
-					final User userdetails = userService.getUserByEmailID(this.loggedInUserEmailID);
+
+					final User userdetails = userService.getUserByEmailID(loggedInUserEmailID);
+					//Setting false to user logged in field
 					userdetails.setLoggedIn(false);
-					
-//					final User userLoggedInDetails = new User(isUserLoggedIn);
-					final boolean savedUser = userService.updateUser(userdetails);
-					System.out.println("User logged out status updated successfully");
+
+					//Setting UserLogged in field
+					userService.updateUser(userdetails);
+					System.out.println("User logged out status updated successfully..!");
 					System.out.println("Logged out Successfully..!");
-					this.loggedInUserEmailID = "";
+					loggedInUserEmailID = "";
 					System.out.print("Do you want to exit App?(Y/N): ");
 					String choice_logout = scanner.next();
 
 					if (choice_logout.equals("N") || choice_logout.equals("n")) {
 						System.out.println("in N");
-						
+
 						this.beforeLogin();
 					} else {
 						System.out.println("Thank you visit again!");
@@ -171,8 +169,10 @@ public class MainMenuController {
 			}
 
 		}
+		scanner.close();
 	}
-
+	
+	// Actions for user registration
 	private void performUserRegistration() {
 		System.out.println("===========================");
 		System.out.println("Mode => User Registration");
@@ -276,9 +276,9 @@ public class MainMenuController {
 		}
 
 		this.beforeLogin();
-
+		scanner.close();
 	}
-
+	//Action for login
 	private void performLogin() {
 
 		System.out.println("===========================");
@@ -300,10 +300,6 @@ public class MainMenuController {
 			matcher = emailPattern.matcher(email);
 		}
 
-		// User Input Password
-		// System.out.println( "INFO:: Password Format: Minimum eight characters, at
-		// least one uppercase letter, one lowercase letter, one special character and
-		// one number");
 		System.out.print("Enter your password (*required): ");
 		String password = scanner.nextLine();
 
@@ -321,15 +317,14 @@ public class MainMenuController {
 
 		final boolean isValidUser = userService.validateUser(email, password);
 		final User userdetails = userService.getUserByEmailID(email);
-		
+
 		if (isValidUser) {
-//			boolean isUserLoggedIn = true;
+			//Set user logged in field to true
 			userdetails.setLoggedIn(true);
-			
-//			final User userLoggedInDetails = new User(isUserLoggedIn);
+
 			final boolean savedUser = userService.updateUser(userdetails);
-			
-			System.out.println("User login status updated : "+ savedUser);
+
+			System.out.println("User login status updated : " + savedUser);
 			System.out.println(email + " Logged in Successfully :)");
 			loggedInUserEmailID = email;
 
@@ -339,6 +334,7 @@ public class MainMenuController {
 
 			performLogin();
 		}
+		scanner.close();
 	}
 
 	// Perform Forgot Password
@@ -372,20 +368,12 @@ public class MainMenuController {
 		}
 
 		final User existingUser = userService.getUserByEmailID(email);
-		// System.out.println("my phone : "+ phone);
-		// System.out.println("Phone number : "+existingUser.getPhoneNumber());
-
-		// if (existingUser.getPhoneNumber().equals(phone))
-		// {
-		// System.out.println("User validated");
-
-		// }
-
+		
 		if (existingUser == null) {
-			System.out.println("No user exist with the given email ID\tTry again!");
+			System.out.println("No user exist with the given email ID..\nTry again!");
+			beforeLogin();
 		} else {
 			if (existingUser.getPhoneNumber().equals(phone)) {
-				// System.out.println("User validated\n");
 				System.out.println(
 						"INFO:: Password Format: Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number");
 				System.out.print("Enter your new password (*required): ");
@@ -417,6 +405,7 @@ public class MainMenuController {
 
 			this.beforeLogin();
 		}
+		scanner.close();
 	}
 
 	// Create a new tweet
@@ -447,10 +436,10 @@ public class MainMenuController {
 
 		// saving the details to the database
 		final Tweet tweet = new Tweet(tweetText, tweetTags);
-		tweetService.saveTweet(this.loggedInUserEmailID, tweet);
+		tweetService.saveTweet(loggedInUserEmailID, tweet);
 
 		this.afterLogin();
-
+		scanner.close();
 	}
 
 	// view tweets of all user
@@ -474,13 +463,12 @@ public class MainMenuController {
 
 			if (choice.equals("N") || choice.equals("n")) {
 				System.out.println("in N");
-				final User userdetails = userService.getUserByEmailID(this.loggedInUserEmailID);
+				final User userdetails = userService.getUserByEmailID(loggedInUserEmailID);
 				userdetails.setLoggedIn(false);
 				
-				
-//				final User userLoggedInDetails = new User(isUserLoggedIn);
-				final boolean savedUser = userService.updateUser(userdetails);
-				System.out.println("User logged out status updated successfully");
+				//Setting UserLogged in field
+				userService.updateUser(userdetails);
+				System.out.println("User logged out status updated successfully..!");
 				this.beforeLogin();
 			} else {
 				System.out.println("in Y");
@@ -488,7 +476,7 @@ public class MainMenuController {
 			}
 
 		}
-
+		scanner.close();
 	}
 
 	// View My Tweets
@@ -513,18 +501,19 @@ public class MainMenuController {
 
 			if (choice.equals("N") || choice.equals("n")) {
 				System.out.println("in N");
-				final User userdetails = userService.getUserByEmailID(this.loggedInUserEmailID);
+				final User userdetails = userService.getUserByEmailID(loggedInUserEmailID);
 				userdetails.setLoggedIn(false);
 				
-//				final User userLoggedInDetails = new User(isUserLoggedIn);
-				final boolean savedUser = userService.updateUser(userdetails);
-				System.out.println("User logged out status updated successfully");
+				//Setting UserLogged in field
+				userService.updateUser(userdetails);
+				System.out.println("User logged out status updated successfully..!");
 				this.beforeLogin();
 			} else {
 				System.out.println("in Y");
 				this.afterLogin();
 			}
 		}
+		scanner.close();
 	}
 
 	// View Profile
@@ -533,11 +522,11 @@ public class MainMenuController {
 		System.out.println("Mode => View Profile");
 		System.out.println("===========================");
 
-		final User savedUser = this.userService.getUserByEmailID(this.loggedInUserEmailID);
+		final User savedUser = this.userService.getUserByEmailID(loggedInUserEmailID);
 
 		if (savedUser == null) {
 			System.out.println("Something went wrong, Kindly try again");
-			
+
 			this.beforeLogin();
 		} else {
 			System.out.println("First Name: " + savedUser.getFirstName());
@@ -551,30 +540,11 @@ public class MainMenuController {
 			final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			final String strDate = formatter.format(savedUser.getDateOfBirth());
 			System.out.println("Date Of Birth: " + strDate);
-			System.out.println("Email ID: " + this.loggedInUserEmailID);
+			System.out.println("Email ID: " + loggedInUserEmailID);
+			System.out.println("Phone Number: " + savedUser.getPhoneNumber());
 			this.afterLogin();
 		}
 	}
-
-	// else {
-	// for (int i = 0; i < tweetsList.size(); i++) {
-	// System.out.println("Tweet " + (i + 1) + " : |" + tweetsList.get(i).getText()
-	// + "| >>> Tags : |"
-	// + tweetsList.get(i).getTags() + "| >>> User : |" +
-	// tweetsList.get(i).getUser().getEmail()
-	// + "|");
-	// }
-	// System.out.print("Do you want to continue?(Y/N): ");
-	// String choice = scanner.next();
-
-	// if (choice.equals("N") || choice.equals("n")) {
-	// System.out.println("in N");
-	// this.beforeLogin();
-	// } else {
-	// System.out.println("in Y");
-	// this.afterLogin();
-	// }
-	// }
 
 	// View All Profile
 	private void viewAllProfile() {
@@ -604,7 +574,7 @@ public class MainMenuController {
 				this.afterLogin();
 			}
 		}
-
+		scanner.close();
 	}
 
 	// reset the password for logged in user
@@ -657,11 +627,11 @@ public class MainMenuController {
 			final boolean isUserUpdated = userService.updateUser(savedUser);
 			if (isUserUpdated) {
 				System.out.println("Password reset successfully.");
-				final User userdetails = userService.getUserByEmailID(this.loggedInUserEmailID);
+				final User userdetails = userService.getUserByEmailID(loggedInUserEmailID);
+				//set user logged in field to false
 				userdetails.setLoggedIn(false);
-				
-//				final User userLoggedInDetails = new User(isUserLoggedIn);
-				final boolean savedUser1 = userService.updateUser(userdetails);
+
+				userService.updateUser(userdetails);
 				System.out.println("User logged out status updated successfully");
 
 				this.beforeLogin();
@@ -676,6 +646,6 @@ public class MainMenuController {
 
 			this.resetPassword();
 		}
-
+		scanner.close();
 	}
 }
