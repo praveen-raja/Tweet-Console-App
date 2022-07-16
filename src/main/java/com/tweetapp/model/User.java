@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -61,7 +60,8 @@ public class User {
 	}
 
 	// own constructor
-	public User(String firstName, String lastName, String gender, Date dateOfBirth, String email, String password, String phoneNumber) {
+	public User(String firstName, String lastName, String gender, Date dateOfBirth, String email, String password,
+			String phoneNumber) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -72,12 +72,4 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.loggedIn = false;
 	}
-	
-	//creating for maintaining login status for user
-	public User(boolean loggedIn)
-	{
-		super();
-		this.loggedIn = false;
-	}
-
 }
