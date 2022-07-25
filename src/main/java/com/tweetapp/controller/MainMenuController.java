@@ -147,7 +147,7 @@ public class MainMenuController {
 					String choice_logout = scanner.next();
 
 					if (choice_logout.equals("N") || choice_logout.equals("n")) {
-						System.out.println("in N");
+						//System.out.println("in N");
 
 						this.beforeLogin();
 					} else {
@@ -462,7 +462,7 @@ public class MainMenuController {
 			String choice = scanner.next();
 
 			if (choice.equals("N") || choice.equals("n")) {
-				System.out.println("in N");
+				//System.out.println("in N");
 				final User userdetails = userService.getUserByEmailID(loggedInUserEmailID);
 				userdetails.setLoggedIn(false);
 				
@@ -471,7 +471,7 @@ public class MainMenuController {
 				System.out.println("User logged out status updated successfully..!");
 				this.beforeLogin();
 			} else {
-				System.out.println("in Y");
+				//System.out.println("in Y");
 				this.afterLogin();
 			}
 
@@ -500,7 +500,7 @@ public class MainMenuController {
 			String choice = scanner.next();
 
 			if (choice.equals("N") || choice.equals("n")) {
-				System.out.println("in N");
+				//System.out.println("in N");
 				final User userdetails = userService.getUserByEmailID(loggedInUserEmailID);
 				userdetails.setLoggedIn(false);
 				
@@ -509,7 +509,7 @@ public class MainMenuController {
 				System.out.println("User logged out status updated successfully..!");
 				this.beforeLogin();
 			} else {
-				System.out.println("in Y");
+				//System.out.println("in Y");
 				this.afterLogin();
 			}
 		}
@@ -567,10 +567,10 @@ public class MainMenuController {
 			System.out.print("Do you want to continue?(Y/N): ");
 			String choice = scanner.next();
 			if (choice.equals("N") || choice.equals("n")) {
-				System.out.println("in N");
+				//System.out.println("in N");
 				this.beforeLogin();
 			} else {
-				System.out.println("in Y");
+				//System.out.println("in Y");
 				this.afterLogin();
 			}
 		}
