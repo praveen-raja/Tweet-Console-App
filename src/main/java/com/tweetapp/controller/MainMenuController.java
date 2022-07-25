@@ -76,12 +76,12 @@ public class MainMenuController {
 					System.exit(0);
 				}
 				default:
-					System.out.println("Erorr: Invalid Choice: Kindly enter the number from the given list range..");
+					System.out.println("Error: Invalid Choice: Kindly enter the number from the given list range..");
 					beforeLogin();
 				}
 				break;
 			} catch (Exception e) {
-				System.out.println("Erorr: Invalid Choice: Kindly enter the number from the given list range..");
+				System.out.println("Error: Invalid Choice: Kindly enter the number from the given list range..");
 			}
 
 		}
@@ -158,14 +158,14 @@ public class MainMenuController {
 					break;
 				}
 				default:
-					System.out.println("Erorr: Invalid Choice: Kindly enter the number from the given option list");
+					System.out.println("Error: Invalid Choice: Kindly enter the number from the given option list");
 					afterLogin();
 				}
 				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				System.out.println(e.getStackTrace().toString());
-				System.out.println("Erorr: Invalid Choice: Kindly enter the number from the given option list");
+				System.out.println("Error: Invalid Choice: Kindly enter the number from the given option list");
 			}
 
 		}
