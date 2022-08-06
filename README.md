@@ -1,2 +1,2 @@
 # Tweet-Console-App
-Java Tweet Console Application 
+Java Spring-Boot Tweet Console Application 
